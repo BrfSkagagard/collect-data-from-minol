@@ -13,6 +13,9 @@ namespace MinoWebCollector
         static private string gitFolder = @"C:\Users\Mattias\Documents\GitHub\";
         static void Main(string[] args)
         {
+            try
+            {
+
             if (args != null && args.Length > 0)
             {
                 gitFolder = args[0];
@@ -99,11 +102,21 @@ namespace MinoWebCollector
             }
 
 
-            //var folders = Directory.GetDirectories(gitFolder, "brfskagagard-lgh*");
-            //foreach (string folder in folders)
-            //{
-            //    // SyncRepository(folder, login.Token, author);
-            //}
+                //var folders = Directory.GetDirectories(gitFolder, "brfskagagard-lgh*");
+                //foreach (string folder in folders)
+                //{
+                //    // SyncRepository(folder, login.Token, author);
+                //}
+            }
+            catch (Exception ex)
+            {
+                using (var stream = File.CreateText(gitFolder + "updateminol-last-error.txt"))
+                {
+                    stream.Write(ex.ToString());
+                    stream.Flush();
+                }
+                throw;
+            }
         }
 
         private static MinoWebLogin ReadSettings(string gitFolder)
