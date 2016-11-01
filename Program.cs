@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -10,9 +11,16 @@ namespace MinoWebCollector
 {
     class Program
     {
+        static NumberFormatInfo numberFormat = new NumberFormatInfo();
+
         static private string gitFolder = @"C:\Users\Mattias\Documents\GitHub\";
         static void Main(string[] args)
         {
+            numberFormat = new NumberFormatInfo()
+            {
+                NumberDecimalSeparator = ","
+            };
+
             try
             {
 
@@ -368,7 +376,7 @@ namespace MinoWebCollector
                                 measurement.PriceRate = price;
 
                                 double costForPeriod;
-                                if (double.TryParse(strCostForPeriod, out costForPeriod))
+                                if (double.TryParse(strCostForPeriod, NumberStyles.Any, numberFormat, out costForPeriod))
                                 {
                                     measurement.Cost = costForPeriod;
                                 }
@@ -376,7 +384,7 @@ namespace MinoWebCollector
                                 measurement.Period = periodLabel;
 
                                 double consumption;
-                                if (double.TryParse(strConsumption, out consumption))
+                                if (double.TryParse(strConsumption, NumberStyles.Any, numberFormat, out consumption))
                                 {
                                     measurement.Consumption = consumption;
                                 }
@@ -405,7 +413,7 @@ namespace MinoWebCollector
                                 measurement.PriceRate = price;
 
                                 double costForPeriod;
-                                if (double.TryParse(strCostForPeriod, out costForPeriod))
+                                if (double.TryParse(strCostForPeriod, NumberStyles.Any, numberFormat, out costForPeriod))
                                 {
                                     measurement.Cost = costForPeriod;
                                 }
@@ -413,7 +421,7 @@ namespace MinoWebCollector
                                 measurement.Period = periodLabel;
 
                                 double consumption;
-                                if (double.TryParse(strConsumption, out consumption))
+                                if (double.TryParse(strConsumption, NumberStyles.Any, numberFormat, out consumption))
                                 {
                                     measurement.Consumption = consumption;
                                 }
