@@ -212,6 +212,18 @@ namespace MinoWebCollector
             return response.IsSuccessStatusCode;
         }
 
+        private static string ToHtmlEncodedText(string text)
+        {
+            var regexp = "[^a-zA-Z0-9 \t]+";
+            var output = Regex.Replace(text, regexp, new MatchEvaluator(MatchEvaluator));
+            return output;
+        }
+
+        private static string MatchEvaluator(Match match)
+        {
+            return "&#" + string.Join(";&#", System.Text.Encoding.Default.GetBytes(match.Value)) + ";";
+        }
+
         static private List<Apartment> GetApartmentsForBuilding(HttpClient client, int buildingNumber)
         {
             var appartments = new List<Apartment>();
@@ -234,7 +246,7 @@ namespace MinoWebCollector
                                     appartment.Building = "Skagafjordsgatan 11";
                                     break;
                                 case 6:
-                                    appartment.Building = "Surtsögatan 4";
+                                    appartment.Building = ToHtmlEncodedText("Surtsögatan 4");
                                     break;
                                 case 7:
                                     appartment.Building = "Oddegatan 10";
